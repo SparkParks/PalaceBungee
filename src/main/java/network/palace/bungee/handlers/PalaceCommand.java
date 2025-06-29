@@ -13,6 +13,56 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Represents a base command framework to be used within the Palace server environment.
+ * <p>
+ * The {@code PalaceCommand} class serves as an abstract implementation for custom commands
+ * that are dependent on the rank and tag of the player executing the command.
+ * It integrates permission checking, execution logic, and tab completion functionality.
+ * <p>
+ * It extends from the {@link Command} interface and implements the {@link TabExecutor}.
+ *
+ * <h2>Features:</h2>
+ * <ul>
+ *     <li>Permission check based on player rank and optional rank tags.</li>
+ *     <li>Delegates execution to custom command logic via the abstract {@link #execute(Player, String[])} method.</li>
+ *     <li>Supports tab-completion with optional player-name suggestions.</li>
+ * </ul>
+ *
+ * <h2>Constructor Overview:</h2>
+ * <p>
+ * Constructors allow you to define the command with optional rank and tag restrictions, as well as aliases.
+ * Default permission is set to {@code Rank.GUEST} if not specified.
+ *
+ * <h2>Key Methods:</h2>
+ * <ul>
+ *     <li>{@link #hasPermission(CommandSender)} - Determines if the sender has the necessary permissions.</li>
+ *     <li>{@link #execute(Player, String[])} - Abstract method to be implemented with custom command behavior.</li>
+ *     <li>{@link #onTabComplete(Player, List)} - Allows custom tab-completion logic.</li>
+ *     <li>{@link #execute(CommandSender, String[])} - Handles the execution logic with permission checks.</li>
+ *     <li>{@link #onTabComplete(CommandSender, String[])} - Handles tab-completion for commands with optional player-name suggestions.</li>
+ * </ul>
+ *
+ * <h2>Rank and Tag Restriction:</h2>
+ * <p>
+ * {@code PalaceCommand} enforces restrictions based on:
+ * <ul>
+ *     <li>{@code rank} - Minimum rank required to execute the command.</li>
+ *     <li>{@code tag} - Optional rank-based tag required for access.</li>
+ * </ul>
+ *
+ * <h2>Tab Completion:</h2>
+ * <p>
+ * Tab completion is configured using the {@code tabComplete} and {@code tabCompletePlayers} flags:
+ * <ul>
+ *     <li>When {@code tabCompletePlayers} is true, it suggests player names as part of the completion.</li>
+ *     <li>{@link #onTabComplete(Player, List)} can be overridden to define custom tab completion behavior.</li>
+ * </ul>
+ *
+ * <p>
+ * Developers must implement the {@link #execute(Player, String[])} method to define specific
+ * behavior for commands derived from {@code PalaceCommand}.
+ */
 public abstract class PalaceCommand extends Command implements TabExecutor {
     @Getter private final Rank rank;
     @Getter private final RankTag tag;
