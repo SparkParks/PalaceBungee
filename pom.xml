@@ -14,29 +14,31 @@
 
     <repositories>
         <repository>
-            <id>md-5</id>
-            <url>https://repo.md-5.net/content/repositories/public/</url>
+            <id>sonatype</id>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
         <repository>
-            <id>palace</id>
-            <url>https://repo.palace.network/nexus/content/repositories/releases/</url>
+            <id>maven_central</id>
+            <name>Maven Central</name>
+            <url>https://repo.maven.apache.org/maven2/</url>
         </repository>
         <repository>
-            <id>central</id>
-            <url>https://repo1.maven.org/maven2/</url>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
     </repositories>
 
     <dependencies>
         <dependency>
             <groupId>net.md-5</groupId>
-            <artifactId>bungeecord</artifactId>
-            <version>1.16</version>
+            <artifactId>bungeecord-api</artifactId>
+            <version>1.16-R0.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.12</version>
+            <version>1.18.38</version>
         </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>
