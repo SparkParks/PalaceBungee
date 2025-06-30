@@ -11,14 +11,101 @@ import network.palace.bungee.utils.EmojiUtil;
 
 import java.util.UUID;
 
+/**
+ * Represents the implementation of the `/msg` command that allows players to send private messages
+ * to another player on the server.
+ * <p>
+ * This command supports direct messaging functionality with additional checks for permissions,
+ * muted status, and message processing. It also includes tab completion support for player names.
+ * </p>
+ *
+ * <h3>Command Functionality</h3>
+ * <p>The main features of the MsgCommand include:</p>
+ * <ul>
+ *   <li>Verifying input arguments to ensure the correct command usage.</li>
+ *   <li>Checking if the sender meets the required online time to send messages.</li>
+ *   <li>Ensuring muted players cannot message non-staff members.</li>
+ *   <li>Verifying if direct messaging is enabled for the server or target player.</li>
+ *   <li>Processing and formatting messages (including emoji conversion).</li>
+ *   <li>Notifying both sender and recipient of the private message.</li>
+ *   <li>Enabling `/msg` auto-complete suggestions for player names.</li>
+ * </ul>
+ *
+ * <h3>Command Execution</h3>
+ * <p>When executed, the MsgCommand validates all necessary conditions before processing and delivering
+ * the message. It also handles error scenarios, such as:</p>
+ * <ul>
+ *   <li>Insufficient arguments or incorrect command usage.</li>
+ *   <li>Attempting to message while muted (with restrictions).</li>
+ *   <li>Target player not found or having messaging disabled.</li>
+ *   <li>Server restrictions on messaging for certain ranks or configurations.</li>
+ *   <li>Handling exceptions during message processing and delivery.</li>
+ * </ul>
+ *
+ * <h3>Tab Completion</h3>
+ * <p>The command supports tab completion for player names to enhance user experience. Players
+ * can interactively type the command with suggestions for currently available player names.</p>
+ *
+ * <h3>Logging and Status Management</h3>
+ * <ul>
+ *   <li>Messages are logged for server monitoring via the social spy feature.</li>
+ *   <li>Direct message reply information is stored for both sender and recipient.</li>
+ * </ul>
+ */
 public class MsgCommand extends PalaceCommand {
 
+    /**
+     * Constructs a new {@code MsgCommand} instance with predefined command names
+     * and aliases for sending private messages between players.
+     *
+     * <p>The {@code MsgCommand} is part of the PalaceCommand system and is used
+     * to facilitate private communication between players. It includes support for
+     * tab-complete functionality, including player name suggestions.</p>
+     *
+     * <h3>Command Features:</h3>
+     * <ul>
+     *   <li>Primary command name: {@code msg}.</li>
+     *   <li>Aliases: {@code m}, {@code tell}, {@code w}.</li>
+     *   <li>Tab-completion support enabled for ease of use.</li>
+     *   <li>Player name tab-completion enabled for quick message recipient selection.</li>
+     * </ul>
+     *
+     * <p>The primary use case of this command is to allow players to send direct
+     * messages to one another using the defined command name or its aliases.
+     * This class extends the {@code PalaceCommand} base class, inheriting its
+     * behavior and structure.</p>
+     */
     public MsgCommand() {
         super("msg", "m", "tell", "w");
         tabComplete = true;
         tabCompletePlayers = true;
     }
 
+    /**
+     * Executes the direct message (DM) command for a player. This method allows a player to send private messages
+     * to other players if certain conditions are met, such as having sufficient playtime, being unmuted or meeting
+     * rank requirements. The method also ensures that the target player has DM enabled and processes the message
+     * content before delivering it.
+     *
+     * <p>Conditions and processing include:</p>
+     * <ul>
+     *   <li>Checking if the player has been online for the minimum required time.</li>
+     *   <li>Validating the target player's availability and DM settings.</li>
+     *   <li>Formatting and analyzing the message for chat compatibility.</li>
+     *   <li>Handling muted players who attempt to use the DM command.</li>
+     *   <li>Delivering messages directly or via proxy if the target player is offline.</li>
+     * </ul>
+     *
+     * <p>Error handling includes validation for invalid inputs, message processing failures,
+     * and handling exceptions during execution.</p>
+     *
+     * @param player The {@link Player} object representing the sender of the DM command.
+     * @param args An array of {@link String} arguments provided by the player.
+     *             <ul>
+     *                <li>args[0]: The username of the target player.</li>
+     *                <li>args[1...n]: The message content.</li>
+     *             </ul>
+     */
     @Override
     public void execute(Player player, String[] args) {
         if (args.length < 2) {
@@ -122,6 +209,20 @@ public class MsgCommand extends PalaceCommand {
         }
     }
 
+    /**
+     * Handles the tab completion for the "MsgCommand" by providing potential argument suggestions
+     * based on the player's input and context.
+     *
+     * <p>This method utilizes the parent's tab completion functionality to process player input
+     * and return a list of possible completions.</p>
+     *
+     * @param commandSender The source of the command. Typically, this is the player or console issuing the command.
+     *                      This parameter is used to determine eligibility for tab completion and to fetch context.
+     * @param args          An array of arguments provided along with the command. The last element in the array
+     *                      is typically the partial input for which completions are being requested.
+     * @return An {@code Iterable<String>} containing a list of strings representing possible tab completions
+     *         for the current input. If no completions are available, it returns an empty list.
+     */
     @Override
     public Iterable<String> onTabComplete(CommandSender commandSender, String[] args) {
         return super.onTabComplete(commandSender, args);

@@ -16,6 +16,49 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.Locale;
 
+/**
+ * The {@code DiscordCommand} class extends the {@code PalaceCommand} and represents
+ * a command to handle Discord-related interactions within a Minecraft server environment.
+ * This command allows players to access Discord-related resources or manage
+ * Discord account linking/unlinking processes.
+ *
+ * <p><b>Command Overview:</b></p>
+ * <ul>
+ *   <li>Command Name: {@code discord}</li>
+ *   <li>Subcommands:
+ *     <ul>
+ *       <li>{@code link} - Starts the process of linking a Discord account to the player's Minecraft account.</li>
+ *       <li>{@code unlink} - Unlinks an already linked Discord account from the player's Minecraft account.</li>
+ *     </ul>
+ *   </li>
+ * </ul>
+ *
+ * <p><b>Features:</b></p>
+ * <ul>
+ *   <li>Shows a clickable message with information about Discord.</li>
+ *   <li>Performs account linking by providing an OAuth2 authorization link.</li>
+ *   <li>Allows players to unlink their existing Discord accounts.</li>
+ *   <li>Uses hover and click events to provide an interactive chat experience.</li>
+ *   <li>Includes URL redirection for linking and unlinking processes.</li>
+ * </ul>
+ *
+ * <p><b>Command Behavior:</b></p>
+ * <ul>
+ *   <li>When no arguments are supplied, a default message with Discord information is displayed.</li>
+ *   <li>When the {@code link} subcommand is issued:
+ *     <ul>
+ *       <li>If the Discord account is already linked, a message displays the relevant information.</li>
+ *       <li>If not linked, provides an interactive message to start the linking process via a URL.</li>
+ *     </ul>
+ *   </li>
+ *   <li>When the {@code unlink} subcommand is issued:
+ *     <ul>
+ *       <li>Removes any existing Discord account linkage.</li>
+ *       <li>Prompts the user to restart the linking process if needed.</li>
+ *     </ul>
+ *   </li>
+ * </ul>
+ */
 public class DiscordCommand extends PalaceCommand {
     public DiscordCommand() {
         super("discord");
